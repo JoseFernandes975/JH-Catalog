@@ -13,7 +13,6 @@ import com.fernandesjose.dscatalog.exceptions.EntityNotFoundException;
 import com.fernandesjose.dscatalog.repositories.CategoryRepository;
 
  	
-
 @Service
 public class CategoryService {
 	
@@ -30,6 +29,14 @@ public class CategoryService {
 	public CategoryDTO findById(Long id) {
 		Optional<Category> obj = repo.findById(id);
 	    Category entity = obj.orElseThrow(() -> new EntityNotFoundException("Id não encontrado!"));
+		return new CategoryDTO(entity);
+	}
+	
+	@Transactional
+	public CategoryDTO insertCategory(CategoryDTO dto) {
+		Category entity = new Category();
+		entity.setName(dto.getName());
+		repo.save(entity);
 		return new CategoryDTO(entity);
 	}
 
