@@ -1,11 +1,12 @@
 package com.fernandesjose.dscatalog.services;
 
-import static org.mockito.Mockito.calls;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
 import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +24,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.fernandesjose.dscatalog.dto.CategoryDTO;
 import com.fernandesjose.dscatalog.dto.ProductDTO;
 import com.fernandesjose.dscatalog.entities.Category;
 import com.fernandesjose.dscatalog.entities.Product;
@@ -32,8 +32,6 @@ import com.fernandesjose.dscatalog.exceptions.ResourceNotFoundException;
 import com.fernandesjose.dscatalog.repositories.CategoryRepository;
 import com.fernandesjose.dscatalog.repositories.ProductRepository;
 import com.fernandesjose.dscatalog.tests.Factory;
-
-import jakarta.persistence.EntityNotFoundException;
 
 @ExtendWith(SpringExtension.class)
 public class ProductServicesTests {

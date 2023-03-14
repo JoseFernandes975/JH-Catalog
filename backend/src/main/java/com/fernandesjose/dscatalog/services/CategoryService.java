@@ -2,6 +2,8 @@ package com.fernandesjose.dscatalog.services;
 
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -15,8 +17,6 @@ import com.fernandesjose.dscatalog.entities.Category;
 import com.fernandesjose.dscatalog.exceptions.DataBaseException;
 import com.fernandesjose.dscatalog.exceptions.ResourceNotFoundException;
 import com.fernandesjose.dscatalog.repositories.CategoryRepository;
-
-import jakarta.persistence.EntityNotFoundException;
 
  	
 @Service

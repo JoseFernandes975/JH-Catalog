@@ -3,11 +3,11 @@ package com.fernandesjose.dscatalog.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_role")
@@ -25,6 +25,11 @@ public class Role implements Serializable{
 	public Role(Long id, String authority) {
 		this.id = id;
 		this.authority = authority;
+	}
+	
+	public Role(Role role) {
+		id = role.getId();
+		authority = role.getAuthority();
 	}
 
 	public Long getId() {
