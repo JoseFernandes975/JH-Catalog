@@ -51,6 +51,7 @@ public class ResourceExceptionHandler {
 		error.setMessage(e.getMessage());
 		
 		//Para diminuir o string muito grande que está dando na resposta http, agora vai deixar a mensagem menos verboso
+		//Criamos uma listinha de erros no validationError, para aparecer os erros resumidos facilitando para o front
 		for(FieldError f : e.getBindingResult().getFieldErrors()) {
 			error.addErrors(f.getField(), f.getDefaultMessage());
 		}
