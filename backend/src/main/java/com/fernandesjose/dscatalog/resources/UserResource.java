@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.fernandesjose.dscatalog.dto.UserDTO;
 import com.fernandesjose.dscatalog.dto.UserInsertDTO;
+import com.fernandesjose.dscatalog.dto.UserUpdateDTO;
 import com.fernandesjose.dscatalog.services.UserService;
 
 @RestController
@@ -50,9 +51,9 @@ public class UserResource {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<UserDTO> update(@PathVariable Long id,@Valid @RequestBody UserDTO dto){
-		dto = services.update(id, dto);
-		return ResponseEntity.ok(dto);
+	public ResponseEntity<UserDTO> update(@PathVariable Long id,@Valid @RequestBody UserUpdateDTO dto){
+		UserDTO newDto = services.update(id, dto);
+		return ResponseEntity.ok(newDto);
 	}
 	
 	@DeleteMapping(value = "/{id}")
