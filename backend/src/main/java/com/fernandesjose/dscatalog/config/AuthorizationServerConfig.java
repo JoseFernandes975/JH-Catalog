@@ -1,6 +1,7 @@
 package com.fernandesjose.dscatalog.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,6 +17,15 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 	
+	@Value("${security.oauth2.client.client-id}")
+	private String clientId;
+	
+	@Value("${security.oauth2.client.client-secret}")
+	private String clientSecret;
+	
+	@Value("${jwt.duration}")
+	private Integer jwtDuration;
+	
 	@Autowired
 	private JwtAccessTokenConverter accessTokenConverter;
 	
@@ -27,7 +37,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
-
 	
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
@@ -38,14 +47,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 	 clients.inMemory()
 	 //credencial do app user
-	 .withClient("dscatalog")
+	 .withClient(clientId)
 	 //credencial do app senha
-	 .secret(passwordEncoder.encode("dscatalog123"))
+	 .secret(passwordEncoder.encode(clientSecret))
 	 //acesso vai ser de leitura e escrita
 	 .scopes("read","write")
 	 //tipo password
 	 .authorizedGrantTypes("password")
-	 .accessTokenValiditySeconds(8400);
+	 .accessTokenValiditySeconds(jwtDuration);
 	 }
 
 	@Override
