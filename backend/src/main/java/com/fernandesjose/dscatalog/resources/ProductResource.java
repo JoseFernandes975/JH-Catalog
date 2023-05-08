@@ -30,8 +30,9 @@ public class ProductResource {
 	private ProductService services;
 	
 	@GetMapping
-	public ResponseEntity<Page<ProductDTO>> findAllPage(@RequestParam(value = "idCategory", defaultValue = "0") Long idCategory, Pageable pageable){
-		Page<ProductDTO> page = services.findAll(idCategory, pageable);
+	public ResponseEntity<Page<ProductDTO>> findAllPage(@RequestParam(value = "idCategory", defaultValue = "0") Long idCategory,
+			                                            @RequestParam(value = "name", defaultValue = "") String name,  Pageable pageable){
+		Page<ProductDTO> page = services.findAll(idCategory, name.trim(), pageable);
 		return ResponseEntity.ok().body(page);
 	}
 	

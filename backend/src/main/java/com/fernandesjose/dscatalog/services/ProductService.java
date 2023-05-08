@@ -31,11 +31,11 @@ public class ProductService {
 	private CategoryRepository catRepo;
 	
 	@Transactional(readOnly = true)
-	public Page<ProductDTO> findAll(Long idCategory, Pageable pageable){
+	public Page<ProductDTO> findAll(Long idCategory, String name, Pageable pageable){
 		//SE id category for igual a zero, ENTÃO vai ser null, SE NÃO eu vou querer o resultado do getOne
 		
 		Category category = (idCategory == 0) ? null : catRepo.getOne(idCategory);
-		Page<Product> list = repo.find(category, pageable);
+		Page<Product> list = repo.find(category, name, pageable);
 		return list.map(x -> new ProductDTO(x));
 	}
 	
