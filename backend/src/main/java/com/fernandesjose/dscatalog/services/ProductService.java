@@ -1,5 +1,7 @@
 package com.fernandesjose.dscatalog.services;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -34,8 +36,8 @@ public class ProductService {
 	public Page<ProductDTO> findAll(Long idCategory, String name, Pageable pageable){
 		//SE id category for igual a zero, ENTÃO vai ser null, SE NÃO eu vou querer o resultado do getOne
 		
-		Category category = (idCategory == 0) ? null : catRepo.getOne(idCategory);
-		Page<Product> list = repo.find(category, name, pageable);
+		List<Category> categories = (idCategory == 0) ? null : Arrays.asList(catRepo.getOne(idCategory));
+		Page<Product> list = repo.find(categories, name, pageable);
 		return list.map(x -> new ProductDTO(x));
 	}
 	
