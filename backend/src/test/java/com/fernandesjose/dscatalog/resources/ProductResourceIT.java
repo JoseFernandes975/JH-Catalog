@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.bouncycastle.crypto.params.ISO18033KDFParameters;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fernandesjose.dscatalog.dto.ProductDTO;
 import com.fernandesjose.dscatalog.tests.Factory;
+import com.fernandesjose.dscatalog.tests.TokenUtil;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -29,15 +31,22 @@ public class ProductResourceIT {
 	@Autowired
 	private ObjectMapper objMapp;
 	
+	@Autowired
+	private TokenUtil tokenUtil;
+	
 	private long existingId;
 	private long nonExistingId;
 	private long countTotalProducts;
+	private String clientUsername;
+	private String clientPassword;
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		existingId = 1L;
 		nonExistingId = 1000L;
 		countTotalProducts = 25L;
+		clientUsername = "maria@gmail.com";
+		clientPassword = "123456";
 	}
 	
 	@Test
@@ -56,10 +65,14 @@ public class ProductResourceIT {
 	public void updateShouldReturnProductDtoWhenIdExists() throws Exception {
 		ProductDTO product = Factory.createProductDTO();
 		
+		
+		String accessToken = tokenUtil.obtainAccessToken(mockMvc, clientUsername, clientPassword);
 		String jsonBody = objMapp.writeValueAsString(product);
 		String expectedName = product.getName();
 		
-		mockMvc.perform(put("/products/{id}", existingId).accept(MediaType.APPLICATION_JSON).content(jsonBody)
+		mockMvc.perform(put("/products/{id}", existingId)
+			.header("Authorization", "Bearer " + accessToken)
+			 .accept(MediaType.APPLICATION_JSON).content(jsonBody)
 			.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 		
 		jsonPath("$.id").exists();
@@ -70,9 +83,13 @@ public class ProductResourceIT {
 	public void updateShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
 		ProductDTO product = Factory.createProductDTO();
 		
+		String accessToken = tokenUtil.obtainAccessToken(mockMvc, clientUsername, clientPassword);
+		
 		String jsonBody = objMapp.writeValueAsString(product);
 		
-		mockMvc.perform(put("/products/{id}", nonExistingId).accept(MediaType.APPLICATION_JSON).content(jsonBody)
+		mockMvc.perform(put("/products/{id}", nonExistingId)
+				.header("Authorization", "Bearer " + accessToken)
+				.accept(MediaType.APPLICATION_JSON).content(jsonBody)
 				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
 	}
 

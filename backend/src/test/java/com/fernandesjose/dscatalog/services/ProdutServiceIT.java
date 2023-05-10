@@ -54,12 +54,12 @@ public class ProdutServiceIT {
 			service.delete(nonExistsId);
 		});
 	}
-	/*
+	
 	@Test
 	public void findAllPageShouldReturnPageWhenPage0Size10() {
 		Pageable pageable = PageRequest.of(0, 10);
 		
-		Page<ProductDTO> result = service.findAll(pageable);
+		Page<ProductDTO> result = service.findAll(0L, "",pageable);
 		
 		Assertions.assertFalse(result.isEmpty());
 		Assertions.assertEquals(10, result.getSize());
@@ -71,7 +71,7 @@ public class ProdutServiceIT {
 	public void findAllPageShouldReturnPageEmptyWhenPageDoesNotExists() {
 		Pageable pageable = PageRequest.of(50, 22);
 		
-		Page<ProductDTO> result = service.findAll(pageable);
+		Page<ProductDTO> result = service.findAll(0L, "",pageable);
 		
 		Assertions.assertTrue(result.isEmpty());
 	}
@@ -80,12 +80,12 @@ public class ProdutServiceIT {
 	public void findAllPageShouldSortWhenSortedByName() {
 		Pageable pageable = PageRequest.of(0, 10, Sort.by("name"));
 		
-		Page<ProductDTO> result = service.findAll(pageable);
+		Page<ProductDTO> result = service.findAll(0L, "", pageable);
 		
 		Assertions.assertFalse(result.isEmpty());
 		Assertions.assertEquals("Macbook Pro", result.getContent().get(0).getName());
 		Assertions.assertEquals("PC Gamer", result.getContent().get(1).getName());
 		Assertions.assertEquals("PC Gamer Alfa", result.getContent().get(2).getName());
 	}
-	*/
+	
 }

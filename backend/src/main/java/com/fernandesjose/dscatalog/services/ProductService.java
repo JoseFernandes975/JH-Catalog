@@ -37,8 +37,9 @@ public class ProductService {
 		//SE id category for igual a zero, ENTÃO vai ser null, SE NÃO eu vou querer o resultado do getOne
 		
 		List<Category> categories = (idCategory == 0) ? null : Arrays.asList(catRepo.getOne(idCategory));
-		Page<Product> list = repo.find(categories, name, pageable);
-		return list.map(x -> new ProductDTO(x));
+		Page<Product> page = repo.find(categories, name, pageable);
+	    repo.findProductWithCategory(page.getContent());
+		return page.map(x -> new ProductDTO(x, x.getCategories()));
 	}
 	
 	@Transactional(readOnly = true)

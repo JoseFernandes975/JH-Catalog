@@ -81,6 +81,10 @@ public class ProductServicesTests {
 		Mockito.when(repository.findById(idExists)).thenReturn(Optional.of(product));
 		Mockito.when(repository.findById(nonExistsId)).thenReturn(Optional.empty());
 		
+		Mockito.when(repository.find(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(page);
+		
+		
+		
 		Mockito.when(repository.findAll((Pageable) ArgumentMatchers.any())).thenReturn(page);
 		
 		Mockito.doNothing().when(repository).deleteById(idExists);
@@ -127,17 +131,16 @@ public class ProductServicesTests {
 			   
 		   });
 	}
-	/*
+	
 	@Test
 	public void findAllShouldReturnPage() {
 	   Pageable pageable = PageRequest.of(0, 10);
 	   
-	   Page<ProductDTO> result = service.findAll(pageable);
+	   Page<ProductDTO> result = service.findAll(0L, "", pageable);
 	   
 	   Assertions.assertNotNull(result);
-	   Mockito.verify(repository, Mockito.times(1)).findAll(pageable);
 	}
-	*/
+	
 	@Test 
 	public void deleteShouldThrowDataBaseExceptionWhenIdDependency() {
 		Assertions.assertThrows(DataBaseException.class, () -> {
